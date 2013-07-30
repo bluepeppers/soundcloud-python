@@ -53,7 +53,10 @@ def wrapped_resource(response):
     dicts will be returned as a ```Resource``` instance.
     """
     try:
-        content = json.loads(response.content)
+        try:
+            content = json.loads(response.content.decode("utf-8"))
+        except (UnicodeError, AttributeError):
+            content = json.loads(response.content)
     except ValueError:
         # not JSON
         content = response.content
