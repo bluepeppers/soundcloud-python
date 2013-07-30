@@ -6,7 +6,7 @@ except ImportError:
     from urllib.parse import quote_plus
 
 def to_params(hash):
-    normalized = map(lambda (k, v): normalize_param(k, v), hash.iteritems())
+    normalized = map((lambda args: normalize_param(args[0], args[1])), hash.items())
     return dict((k, v) for d in normalized for (k, v) in d.items())
 
 def normalize_param(key, value):
