@@ -1,10 +1,14 @@
+import sys
+
 try:
     import json
 except ImportError:
     import simplejson as json
 
-from UserList import UserList
-
+if sys.version_info < (3, 0):
+    from UserList import UserList
+else:
+    UserList = list
 
 class Resource(object):
     """Object wrapper for resources.

@@ -1,5 +1,10 @@
+import sys
 from functools import partial
-from urllib import urlencode
+
+if sys.version_info > (3, 0):
+    from urllib.parse import urlencode
+else:
+    from urllib import urlencode
 
 from soundcloud.resource import wrapped_resource
 from soundcloud.request import make_request

@@ -1,12 +1,21 @@
 import codecs
-import urllib
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
 
 import requests
 
 try:
     from mimetools import choose_boundary
 except ImportError:
-    from requests.packages.urllib3.packages.mimetools_choose_boundary import choose_boundary
+    try:
+        from requests.packages.urllib3.packages.mimetools_choose_boundary import choose_boundary
+    except ImportError:
+        import uuid
+
+        def choose_boundary():
+            return uuid.uuid4().hex
 
 from io import BytesIO
 
@@ -15,7 +24,7 @@ from requests.packages.urllib3.packages.six import b
 from requests.packages.urllib3.filepost import get_content_type, iter_fields
 
 import soundcloud
-import hashconversions
+from . import hashconversions
 
 writer = codecs.lookup('utf-8')[3]
 
@@ -174,7 +183,7 @@ def make_request(method, url, params):
         raise TypeError('Unknown method: %s' % (method,))
 
     if method == 'get':
-        qs = urllib.urlencode(data)
+        qs = urlencode(data)
         result = request_func('%s?%s' % (url, qs), **kwargs)
     else:
         kwargs['data'] = data
