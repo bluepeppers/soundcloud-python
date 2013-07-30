@@ -50,7 +50,7 @@ def normalize_param(key, value):
         params.update({key: value})
 
     for (parent, hash) in stack:
-        for (key, value) in hash.iteritems():
+        for (key, value) in hash.items():
             if isinstance(value, dict):
                 stack.append(["%(parent)s[%(key)s]" % dict(parent=parent, key=key), value])
             else:
